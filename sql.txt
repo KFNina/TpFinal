@@ -1,0 +1,166 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema tpfinalkev
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema tpfinalkev
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `tpfinalkev` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `tpfinalkev`.`Comuna`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tpfinalkev`.`Comuna` (
+  `idcomuna` INT NOT NULL,
+  `numeroComu` INT NOT NULL,
+  `nombreSede` VARCHAR(45) NOT NULL,
+  `juntaResponsable` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idcomuna`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`TiposBarrios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`TiposBarrios` (
+  `idTiposBarrios` INT NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  PRIMARY KEY (`idTiposBarrios`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Barrio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Barrio` (
+  `idbarrio` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `superficiehectareas` INT NOT NULL,
+  `comuna_idcomuna` INT NOT NULL,
+  `TiposBarrios_idTiposBarrios` INT NOT NULL,
+  PRIMARY KEY (`idbarrio`),
+  INDEX `fk_table1_comuna_idx` (`comuna_idcomuna` ASC) VISIBLE,
+  INDEX `fk_Barrio_TiposBarrios1_idx` (`TiposBarrios_idTiposBarrios` ASC) VISIBLE,
+  CONSTRAINT `fk_table1_comuna`
+    FOREIGN KEY (`comuna_idcomuna`)
+    REFERENCES `tpfinalkev`.`Comuna` (`idcomuna`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Barrio_TiposBarrios1`
+    FOREIGN KEY (`TiposBarrios_idTiposBarrios`)
+    REFERENCES `mydb`.`TiposBarrios` (`idTiposBarrios`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`SituacionLaboral`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`SituacionLaboral` (
+  `idSituacionLaboral` INT NOT NULL,
+  `SituacionLaboralcol` VARCHAR(45) NULL,
+  PRIMARY KEY (`idSituacionLaboral`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Personas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Personas` (
+  `idPersonas` INT NOT NULL,
+  `DNI` VARCHAR(9) NOT NULL,
+  `NombreCom` VARCHAR(20) NOT NULL,
+  `FechaNacimiento` DATE NOT NULL,
+  `SituacionLaboral_idSituacionLaboral` INT NOT NULL,
+  `Barrio_idbarrio` INT NOT NULL,
+  PRIMARY KEY (`idPersonas`),
+  INDEX `fk_Personas_SituacionLaboral1_idx` (`SituacionLaboral_idSituacionLaboral` ASC) VISIBLE,
+  INDEX `fk_Personas_Barrio1_idx` (`Barrio_idbarrio` ASC) VISIBLE,
+  CONSTRAINT `fk_Personas_SituacionLaboral1`
+    FOREIGN KEY (`SituacionLaboral_idSituacionLaboral`)
+    REFERENCES `mydb`.`SituacionLaboral` (`idSituacionLaboral`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Personas_Barrio1`
+    FOREIGN KEY (`Barrio_idbarrio`)
+    REFERENCES `mydb`.`Barrio` (`idbarrio`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`TrazadoFormal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`TrazadoFormal` (
+  `idTrazadoFormal` INT NOT NULL,
+  `TiposBarrios_idTiposBarrios` INT NOT NULL,
+  `cantEdificios` INT NOT NULL,
+  `porcentajeAsfalto` INT NOT NULL,
+  INDEX `fk_TrazadoFormal_TiposBarrios1_idx` (`TiposBarrios_idTiposBarrios` ASC) VISIBLE,
+  CONSTRAINT `fk_TrazadoFormal_TiposBarrios1`
+    FOREIGN KEY (`TiposBarrios_idTiposBarrios`)
+    REFERENCES `mydb`.`TiposBarrios` (`idTiposBarrios`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`UrbanizacionPlanificada`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`UrbanizacionPlanificada` (
+  `idUrbanizacionPlanificada` INT NOT NULL,
+  `TiposBarrios_idTiposBarrios` INT NOT NULL,
+  `LeyLigislatura` VARCHAR(45) NOT NULL,
+  `ConexionAguaPotable` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idUrbanizacionPlanificada`),
+  INDEX `fk_UrbanizacionPlanificada_TiposBarrios1_idx` (`TiposBarrios_idTiposBarrios` ASC) VISIBLE,
+  CONSTRAINT `fk_UrbanizacionPlanificada_TiposBarrios1`
+    FOREIGN KEY (`TiposBarrios_idTiposBarrios`)
+    REFERENCES `mydb`.`TiposBarrios` (`idTiposBarrios`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`ComplejosHabitacionales`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`ComplejosHabitacionales` (
+  `idComplejosHabitacionales` INT NOT NULL,
+  `TiposBarrios_idTiposBarrios` INT NOT NULL,
+  `CantMonoblocks` INT NOT NULL,
+  `SiTieneConsorcio` BIT(1) NOT NULL,
+  PRIMARY KEY (`idComplejosHabitacionales`),
+  INDEX `fk_ComplejosHabitacionales_TiposBarrios1_idx` (`TiposBarrios_idTiposBarrios` ASC) VISIBLE,
+  CONSTRAINT `fk_ComplejosHabitacionales_TiposBarrios1`
+    FOREIGN KEY (`TiposBarrios_idTiposBarrios`)
+    REFERENCES `mydb`.`TiposBarrios` (`idTiposBarrios`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+USE `tpfinalkev` ;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
