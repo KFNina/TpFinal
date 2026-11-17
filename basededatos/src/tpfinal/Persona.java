@@ -3,8 +3,6 @@ package tpfinal;
 
 import java.time.*;
 
-import Enumeradores.SituacionLaboral;
-
 public class Persona {
 	
 	private SituacionLaboral situacion;

@@ -5,14 +5,14 @@ public final class ComplejosHabitacionales extends Barrio{
 	private int cantMonoblocks;
 	private boolean siTieneConsorcio;
 	
-	public ComplejosHabitacionales(String nombre, String superficieHectarea,int cantMonoblocks, boolean siTieneConsorcio) {
+	public ComplejosHabitacionales(String nombre, int superficieHectarea,int cantMonoblocks, boolean siTieneConsorcio) {
 		super(nombre, superficieHectarea);
 		this.cantMonoblocks = cantMonoblocks;
 		this.siTieneConsorcio = siTieneConsorcio;
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean criticidadHabitacional() {
+	public boolean tieneCriticidad() {
 		if(siTieneConsorcio == false) {
 			return true;
 		}else {
@@ -20,8 +20,10 @@ public final class ComplejosHabitacionales extends Barrio{
 		}
 	}
 	
-	public double densidadPoblacional() {
+	public float calcularDensidad() {
+		float densidad = getCantPersonas().size() /  cantMonoblocks;
 		
+		return densidad;
 	}
 	
 	public int getCantMonoblocks() {

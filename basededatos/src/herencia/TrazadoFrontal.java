@@ -5,18 +5,24 @@ public final class TrazadoFrontal extends Barrio{
 	private int cantEdificios;
 	private int porcetajeAsfalto;
 	
-	public TrazadoFrontal(String nombre, String superficieHectarea, int cantEdificios, int porcentajeAsfalto) {
+	public TrazadoFrontal(String nombre, int superficieHectarea, int cantEdificios, int porcentajeAsfalto) {
 		super(nombre, superficieHectarea);
 		this.porcetajeAsfalto = porcentajeAsfalto;
 		this.cantEdificios = cantEdificios;
 	}
 	
-	public boolean criticidadHabitacional() {
+	public boolean tieneCriticidad() {
 		if(porcetajeAsfalto < 95) {
 			return true;
 		}else {
 			return false;
 		}
+	}
+	
+	public float calcularDensidad() {
+		float densidad = getCantPersonas().size() / cantEdificios;
+		
+		return densidad;
 	}
 
 	public int getCantEdificios() {

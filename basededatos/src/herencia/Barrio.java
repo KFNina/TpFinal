@@ -1,18 +1,23 @@
 package herencia;
 
+import java.util.ArrayList;
+
+import tpfinal.Persona;
+
 public abstract class Barrio {
 	private String nombre; 
-	private String superficieHectarea;
+	private int superficieHectarea;
+	private ArrayList<Persona> cantPersonas;
     
 	
-	public Barrio(String nombre,String superficieHectarea) {
+	public Barrio(String nombre,int superficieHectarea) {
 		this.nombre = nombre;
 		this.superficieHectarea = superficieHectarea;
 	}
 	
-	public abstract boolean criticidadHabitacional();
+	public abstract boolean tieneCriticidad();
 	
-	public abstract double densidadPoblacional();
+	public abstract float calcularDensidad();
 	
 	public String getNombre() {
 		return nombre;
@@ -22,11 +27,19 @@ public abstract class Barrio {
 		this.nombre = nombre;
 	}
 
-	public String getSuperficieHectarea() {
+	public int getSuperficieHectarea() {
 		return superficieHectarea;
 	}
 
-	public void setSuperficieHectarea(String superficieHectarea) {
+	public void setSuperficieHectarea(int superficieHectarea) {
 		this.superficieHectarea = superficieHectarea;
+	}
+
+	public ArrayList<Persona> getCantPersonas() {
+		return cantPersonas;
+	}
+
+	public void setCantPersonas(ArrayList<Persona> cantPersonas) {
+		this.cantPersonas = cantPersonas;
 	}
 }
