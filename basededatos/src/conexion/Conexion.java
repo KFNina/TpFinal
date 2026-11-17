@@ -12,8 +12,6 @@ import tpfinal.Comuna;
 public class Conexion {
 	String user = "root";
 	String psw = "admin";
-
-	
 	String path = "jdbc:mysql://localhost:3306/mydb";
 		
 		
