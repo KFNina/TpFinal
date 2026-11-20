@@ -1,0 +1,92 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `tpfinalnk`
+DEFAULT CHARACTER SET utf8;
+			
+USE `tpfinalnk`;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Comuna`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tpfinalnk`.`Comuna` (
+  `idComuna` INT NOT NULL AUTO_INCREMENT,
+  `NombreSede` VARCHAR(45) NOT NULL,
+  `NumeroSede` INT NOT NULL,
+  PRIMARY KEY (`idComuna`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Barrio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tpfinalnk`.`Barrio` (
+  `idBarrio` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Superficie` VARCHAR(45) NOT NULL,
+  `CantEdificios` INT NULL,
+  `PorcentajeAsfalto` INT NULL,
+  `NumLey` VARCHAR(45) NULL,
+  `ConexionAgua` BIT(1) NULL,
+  `CantMonoblock` INT NULL,
+  `TieneConsorcio` BIT(1) NULL,
+  `Comuna_idComuna` INT NOT NULL,
+  PRIMARY KEY (`idBarrio`),
+  INDEX `fk_Barrio_Comuna_idx` (`Comuna_idComuna` ASC) VISIBLE,
+  CONSTRAINT `fk_Barrio_Comuna`
+    FOREIGN KEY (`Comuna_idComuna`)
+    REFERENCES `mydb`.`Comuna` (`idComuna`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Situacion laboral`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tpfinalnk`.`Situacion laboral` (
+  `idSituacion laboral` INT NOT NULL AUTO_INCREMENT,
+  `Estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idSituacion laboral`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Personas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tpfinalnk`.`Personas` (
+  `idPersonas` INT NOT NULL AUTO_INCREMENT,
+  `DNI` VARCHAR(9) NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `FechaNacimiento` DATE NOT NULL,
+  `Barrio_idBarrio` INT NOT NULL,
+  `Situacion laboral_idSituacion laboral` INT NOT NULL,
+  PRIMARY KEY (`idPersonas`),
+  INDEX `fk_Personas_Barrio1_idx` (`Barrio_idBarrio` ASC) VISIBLE,
+  INDEX `fk_Personas_Situacion laboral1_idx` (`Situacion laboral_idSituacion laboral` ASC) VISIBLE,
+  CONSTRAINT `fk_Personas_Barrio1`
+    FOREIGN KEY (`Barrio_idBarrio`)
+    REFERENCES `mydb`.`Barrio` (`idBarrio`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Personas_Situacion laboral1`
+    FOREIGN KEY (`Situacion laboral_idSituacion laboral`)
+    REFERENCES `mydb`.`Situacion laboral` (`idSituacion laboral`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
