@@ -25,11 +25,11 @@ public class MenuComuna extends JPanel {
 	
 	private CargarComuna PanelAgregar;
 	private PanelComunaConsulta PanelConsultar;
-	private PanelMenuPrincipal PanelMenuPrincipal;
+	private MenuPrincipal PanelMenuPrincipal;
 	private MenuComuna panelActual = this;
 	
 	
-	public MenuComuna(JFrame marco, PanelMenuPrincipal menuPrincipal) {
+	public MenuComuna(JFrame marco, MenuPrincipal menuPrincipal) {
 	    this.marco = marco;
 	    this.PanelMenuPrincipal = menuPrincipal;
 	    setLayout(null);

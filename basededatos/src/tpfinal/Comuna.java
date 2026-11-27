@@ -29,6 +29,19 @@ public class Comuna {
     	}
     	return (cantBarrios*0.5) <= barriosPrioritarios;
     }
+	
+	public int getCantidadBarriosCriticos() {
+		int cantidad = 0;
+		
+		for(Barrio b : barrios) {
+			
+			if(b.tieneCriticidad()) {
+				cantidad++;
+			}
+		}
+		
+		return cantidad;
+	}
 
 	public String getNumerocomuna() {
 		return numerocomuna;
@@ -56,5 +69,9 @@ public class Comuna {
 
 	public ArrayList<Barrio> getBarrios() {
 		return barrios;
+	}
+
+	public int getCantidadBarrio() {
+		return cantBarrios;
 	}
 }

@@ -37,15 +37,32 @@ public class CargarComuna extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	public CargarComuna(JFrame marco, MenuComuna panelMenuComuna,String numeroSedeAntiguo) {
+		this.marco = marco;
+		this.panelMenuComuna = panelMenuComuna;
+		this.numeroSedeAntiguo = numeroSedeAntiguo;
+		modoModificar = true;
+		setBounds(0,0,750,500);
+		setLayout(null);
+		
+		crearLabels();
+		crearButton();
+		crearTextField();
+		eventoBoton();
+		rellenarCampos();
+	}
+	
 	public CargarComuna(JFrame marco, MenuComuna panelMenuComuna) {
 		this.marco = marco;
 		this.panelMenuComuna = panelMenuComuna;
-		setBounds(100, 100, 600, 450);
+		modoModificar = false;
+		setBounds(0,0,750,500);
 		setLayout(null);
-		crearLabels();
-		crearTextField();
-		crearButton();
 		
+		crearLabels();
+		crearButton();
+		crearTextField();
+		eventoBoton();
 	}
 	
 	public void crearLabels() {
@@ -101,6 +118,14 @@ public class CargarComuna extends JPanel {
 		c = new Comuna(nombre, numeroSede);
 		
 		return c;
+	}
+	
+	public void rellenarCampos() {
+		Comuna comuna = Sentencia.conexionComuna.conseguirComunaeEspecifica(numeroSedeAntiguo);
+		
+		textFieldNombre.setText(comuna.getNombreComuna());
+		
+		textFieldNumero.setText(comuna.getNumerocomuna());
 	}
 	
 	public void eventoBoton() {

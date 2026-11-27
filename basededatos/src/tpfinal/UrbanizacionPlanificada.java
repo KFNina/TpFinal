@@ -34,7 +34,7 @@ public final class UrbanizacionPlanificada extends Barrio {
 		this.leyLegislatura = leyLegislatura;
 	}
 
-	public boolean isConexionAguaPotable() {
+	public boolean getConexionAguaPotable() {
 		return conexionAguaPotable;
 	}
 

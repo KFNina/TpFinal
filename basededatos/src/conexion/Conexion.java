@@ -14,7 +14,7 @@ public class Conexion {
 	String psw = "admin";
 
 	
-	String path = "jdbc:mysql://localhost:3306/TpfinalNK";
+	String path = "jdbc:mysql://localhost:3306/Tpfinalnk";
 		
 		
 	public Connection conectar() {

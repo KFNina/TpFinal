@@ -56,7 +56,7 @@ public class BarrioDao {
 				UrbanizacionPlanificada barrioUP = (UrbanizacionPlanificada) b;
 				
 				stmt.setString(5, barrioUP.getLeyLegislatura());
-				stmt.setBoolean(6, barrioUP.isConexionAguaPotable());
+				stmt.setBoolean(6, barrioUP.getConexionAguaPotable());
 				
 			}
 			
@@ -66,7 +66,7 @@ public class BarrioDao {
 			e.printStackTrace();
 			
 		}		
-		
+				
 	}
 	
 	public boolean eliminarBarrioSeleccionado(String nombreBarrio) {
@@ -133,7 +133,7 @@ public class BarrioDao {
 				UrbanizacionPlanificada barrioUP = (UrbanizacionPlanificada) b;
 				
 				stmt.setString(5, barrioUP.getLeyLegislatura());
-				stmt.setBoolean(6, barrioUP.isConexionAguaPotable());
+				stmt.setBoolean(6, barrioUP.getConexionAguaPotable());
 				
 			}
 	        
@@ -284,4 +284,59 @@ public class BarrioDao {
 
 		return barrios;
 	}
+	
+	public boolean existeBarrioConEsteNombre(String nombreBarrioACheckear) {
+		Connection conexion = c.conectar();
+		boolean existe = false;
+		
+		String sql = "SELECT * FROM barrio WHERE nombre = ?";
+		
+		try{
+			PreparedStatement stmt = conexion.prepareStatement(sql);
+			
+			stmt.setString(1, nombreBarrioACheckear);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				existe = true;
+			}
+			
+			
+		}catch(SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return existe;
+	}
+	
+	public String conseguirNumeroSedeBarrioAsociado(String nombreBarrio) {
+		Connection conexion = c.conectar();
+		String numeroSede = null;
+		
+		String sql = "SELECT c.NumeroSede " 
+				+"FROM Barrio b "
+				+"INNER JOIN Comuna c "
+				+"ON b.Comuna_ID_Comuna = c.IdComuna "
+				+"WHERE b.nombre = ?";
+		
+		try{
+			PreparedStatement stmt = conexion.prepareStatement(sql);
+			stmt.setString(1, nombreBarrio);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				numeroSede = rs.getString("Numero_Comuna");
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return numeroSede;
+	}
+	
 }

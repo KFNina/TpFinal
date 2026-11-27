@@ -15,6 +15,7 @@ public class ComunaDao {
 	
 	public ComunaDao(Conexion c) {
 		this.c = c;
+		conexionBarrio = new BarrioDao(c,this);
 	}
 	
 	
@@ -50,7 +51,7 @@ public class ComunaDao {
 		int id = 0;
 		Connection conexion = c.conectar();
 		
-		String sql = "SELECT ID_Comuna FROM Comuna WHERE Numero_Comuna = ?";
+		String sql = "SELECT IdComuna FROM Comuna WHERE NumeroSede = ?";
 
 		try{
 	        PreparedStatement stmt = conexion.prepareStatement(sql);
@@ -58,7 +59,7 @@ public class ComunaDao {
 	        ResultSet rs = stmt.executeQuery();
 
 	        while (rs.next()) {
-	        	id = rs.getInt("ID_comuna");
+	        	id = rs.getInt("Idcomuna");
 	        }
 
 	    } catch (SQLException e) {
@@ -223,10 +224,10 @@ public class ComunaDao {
 	    String nombreBarrio;
 	    
 	    
-	    String sql = "SELECT c.Numero_Comuna, b.nombre "
+	    String sql = "SELECT c.NumeroSede, b.Nombre "
 	    		+ "FROM comuna c "
 	    		+ "INNER JOIN barrio b "
-	    		+ "    ON c.ID_comuna = b.Comuna_ID_comuna;";
+	    		+ "    ON c.IdComuna = b.Comuna_IdComuna;";
 
 	    try{
 	        PreparedStatement stmt = conexion.prepareStatement(sql);
